@@ -30,7 +30,7 @@ int main()
     scanf("%d", &n);
     nn = n;
     struct process p[n];
-    queue<process> q1, q2;
+    deque<process> q1, q2;
     int wt[n], ct[n], tat[n], BT[n], flag[n], qt;
     printf("\nEnter Arrival Time: ");
     for(int i=0; i<n; i++)
@@ -68,8 +68,8 @@ int main()
                 if(p[j].at <= i and p[j].bt>0 and flag[j]==0)
                 {
                     flag[j] = 1;
-                    if(p[j].no == 1) q1.push(p[j]);
-                    else q2.push(p[j]);
+                    if(p[j].no == 1) q1.push_back(p[j]);
+                    else q2.push_back(p[j]);
                 }
             }
         }
@@ -77,23 +77,23 @@ int main()
         while(q1.size() > 0)
         {
             struct process fr = q1.front();
-            q1.pop();
+            q1.pop_front();
 
             for(int tim = 1; tim <= qt and fr.bt>0; tim++)
             {
-                fr.bt--;
-                i++;
                 for(int j=0; j<n; j++)
                 {
                     if(p[j].at == i and p[j].bt > 0 and flag[j] == 0)
                     {
                         flag[j] = 1;
-                        if(p[j].no == 1) q1.push(p[j]);
-                        else q2.push(p[j]);
+                        if(p[j].no == 1) q1.push_back(p[j]);
+                        else q2.push_back(p[j]);
                     }
                 }
+                fr.bt--;
+                i++;
             }
-            if(fr.bt != 0) q1.push(fr);
+            if(fr.bt != 0) q1.push_back(fr);
             else
             {
                 tat[fr.id] = i-fr.at;
@@ -107,31 +107,34 @@ int main()
         while(q2.size() > 0)
         {
             struct process fr = q2.front();
-            q2.pop();
+            q2.pop_front();
             while(fr.bt > 0)
             {
-                fr.bt--;
-                i++;
                 for(int j=0; j<n; j++)
                 {
                     if(p[j].at == i and p[j].bt > 0 and flag[j] == 0)
                     {
                         flag[j] = 1;
-                        if(p[j].no == 1) q1.push(p[j]);
-                        else q2.push(p[j]);
+                        if(p[j].no == 1) q1.push_back(p[j]);
+                        else q2.push_back(p[j]);
                     }
                 }
+                fr.bt--;
+                i++;
                 if(q1.size() > 0) break;
             }
             if(fr.bt == 0)
             {
-                printf("I = %d\n", i);
                 tat[fr.id] = i-fr.at;
                 wt[fr.id] = tat[fr.id]-BT[fr.id];
                 waiting_time += wt[fr.id];
                 turn_around_time += tat[fr.id];
             }
-            else q2.push(fr);
+            else
+            {
+                if(q1.size() > 0) q2.push_front(fr);
+                else q2.push_back(fr);
+            }
             gant[idx] = fr.id;
             idx++;
             if(q1.size() > 0)
