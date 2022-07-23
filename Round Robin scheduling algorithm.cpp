@@ -87,3 +87,4 @@ int main()
     printf("\nAverage Waiting Time: %0.5f", waiting_time/n);
     printf("\nAverage Turn Around Time: %0.5f\n", turn_around_time/n);
 }
+
