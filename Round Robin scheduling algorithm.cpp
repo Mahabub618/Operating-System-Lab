@@ -57,12 +57,12 @@ int main()
 
         for(int tim = 1; tim <= qt and fr.bt>0; tim++)
         {
-            fr.bt--;
-            sum++;
             for(int i=0; i<n; i++)
             {
-                if(p[i].at == sum) q.push(p[i]);
+                if(p[i].at == sum and p[i].id != fr.id) q.push(p[i]);
             }
+            fr.bt--;
+            sum++;
         }
         if(fr.bt != 0) q.push(fr);
         else
