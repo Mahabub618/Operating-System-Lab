@@ -5,7 +5,7 @@ int main()
     int n, m;
     printf("Enter number of process: ");
     scanf("%d", &n);
-    printf("\Enter number of resource: ");
+    printf("\nEnter number of resource: ");
     scanf("%d", &m);
     int flag[n], need[n][m], Max[n][m], allocation[n][m], available[m];
     for(int i=0; i<n; i++) flag[i] = 0;
